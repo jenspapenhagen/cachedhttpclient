@@ -43,12 +43,12 @@ public class CallingExternalService {
     @Nonnull
     private String call(@Nonnull final String queryUrl) {
         final String uri = baseURL + queryUrl;
-        Log.info("uri: " + uri);
+        Log.debug("uri: " + uri);
 
         //building the full URI
         final HttpRequest httpRequest = HttpRequest.newBuilder()
                 .uri(URI.create(uri))
-                .timeout(Duration.of(10, SECONDS))
+                .timeout(Duration.of(30, SECONDS))
                 .GET()
                 .build();
 
@@ -76,7 +76,7 @@ public class CallingExternalService {
             //transform the map of string/string into a URL Encoded Query String.
             final StringBuilder stringBuilder = new StringBuilder();
             for (Map.Entry<String, String> entry : tempMap.entrySet()) {
-                if (tempMap.entrySet().size() > 0) {
+                if (!tempMap.entrySet().isEmpty()) {
                     stringBuilder.append("&");
                 }
                 stringBuilder.append(String.format("%s=%s",
