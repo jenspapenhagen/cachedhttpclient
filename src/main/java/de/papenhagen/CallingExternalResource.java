@@ -28,7 +28,7 @@ public class CallingExternalResource {
     @DELETE
     @Produces(MediaType.TEXT_PLAIN)
     public String cleanCache() {
-        cacheClearer.clearCache("external-cache");
+        cacheClearer.clearCache("external_cache");
         return "External Cache cleaned";
     }
 

@@ -2,9 +2,11 @@ package de.papenhagen;
 
 import io.quarkus.cache.Cache;
 import io.quarkus.cache.CacheManager;
+import jakarta.annotation.Nonnull;
 import jakarta.inject.Singleton;
 
 import java.util.Optional;
+
 
 @Singleton
 public class CacheClearer {
@@ -14,8 +16,8 @@ public class CacheClearer {
         this.cacheManager = cacheManager;
     }
 
-    public void clearCache(final String cacheName) {
-        Optional<Cache> cache = cacheManager.getCache(cacheName);
+    public void clearCache(@Nonnull final String cacheName) {
+        final Optional<Cache> cache = cacheManager.getCache(cacheName);
         cache.ifPresent(c -> {
             c.invalidateAll().await().indefinitely();
         });

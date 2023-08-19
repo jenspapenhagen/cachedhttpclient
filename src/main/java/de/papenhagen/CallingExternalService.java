@@ -2,6 +2,7 @@ package de.papenhagen;
 
 import io.quarkus.cache.CacheResult;
 import io.quarkus.logging.Log;
+import jakarta.annotation.Nonnull;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
@@ -26,10 +27,12 @@ public class CallingExternalService {
 
     private final HttpClient client = HttpClient.newHttpClient();
 
-    @CacheResult(cacheName = "external-cache")
-    public String getResponseFromExternalService(final String parameter) {
+
+    @Nonnull
+    @CacheResult(cacheName = "external_cache")
+    public String getResponseFromExternalService(@Nonnull final String parameter) {
         //checking for more than one parameter
-        if (parameter.contains("|")) {
+        if (parameter.contains(":")) {
             final String query = getQueryStringBuilder(parameter);
             return call(query);
         }
@@ -37,9 +40,10 @@ public class CallingExternalService {
         return call(parameter);
     }
 
-    private String call(final String queryUrl) {
+    @Nonnull
+    private String call(@Nonnull final String queryUrl) {
         final String uri = baseURL + queryUrl;
-        Log.debug("uri: " + uri);
+        Log.info("uri: " + uri);
 
         //building the full URI
         final HttpRequest httpRequest = HttpRequest.newBuilder()
@@ -58,8 +62,9 @@ public class CallingExternalService {
         return "";
     }
 
-    private String getQueryStringBuilder(String parameter) {
-        final String[] splitString = parameter.split("\\|");
+    @Nonnull
+    private String getQueryStringBuilder(@Nonnull final String parameter) {
+        final String[] splitString = parameter.split(":");
         //checking for key value pairs
         if (splitString.length % 2 == 0) {
             //split the given String. "abc|123|def|456" into key/value pairs
@@ -71,7 +76,7 @@ public class CallingExternalService {
             //transform the map of string/string into a URL Encoded Query String.
             final StringBuilder stringBuilder = new StringBuilder();
             for (Map.Entry<String, String> entry : tempMap.entrySet()) {
-                if (stringBuilder.length() > 0) {
+                if (tempMap.entrySet().size() > 0) {
                     stringBuilder.append("&");
                 }
                 stringBuilder.append(String.format("%s=%s",
