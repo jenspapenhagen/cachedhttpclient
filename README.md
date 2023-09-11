@@ -1,12 +1,13 @@
-# cachedhttpclient
+# CachedHTTPSclient
 
-This is small Quarkus Service for calling an external resource, but caching the response.
+This is small Quarkus Service for calling an external resource over HTTPS,
+and than caching the response for later use.
 
 ## Usecase
 Many internal Service are calling an external and/or rate limited service
 
 ## How to use
-Adding the external resource URL into "baseURL" in the env. 
+Adding the external resource URL into "baseDomain" and "basePath" in the env. 
 https://quarkus.io/guides/config-reference
 
 
