@@ -22,8 +22,8 @@ import static java.time.temporal.ChronoUnit.SECONDS;
 @ApplicationScoped
 public class CallingExternalService {
 
-    @ConfigProperty(name = "baseURL", defaultValue = "/api/v2/")
-    private String baseURL;
+    @ConfigProperty(name = "basePath", defaultValue = "/api/v2/")
+    private String basePath;
 
     @ConfigProperty(name = "baseDomain", defaultValue = "localhost")
     private String baseDomain;
@@ -45,7 +45,7 @@ public class CallingExternalService {
 
     @Nonnull
     private String call(@Nonnull final String queryUrl) {
-        final String uri = "https://" + baseDomain + baseURL + queryUrl;
+        final String uri = "https://" + baseDomain + basePath + queryUrl;
         Log.debug("URI: " + uri);
 
         //building the full URI
