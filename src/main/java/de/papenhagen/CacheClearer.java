@@ -3,6 +3,7 @@ package de.papenhagen;
 import io.quarkus.cache.Cache;
 import io.quarkus.cache.CacheManager;
 import jakarta.annotation.Nonnull;
+import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
 import java.util.Optional;
@@ -10,6 +11,7 @@ import java.util.Optional;
 
 @Singleton
 public class CacheClearer {
+    @Inject
     private final CacheManager cacheManager;
 
     public CacheClearer(final CacheManager cacheManager) {
